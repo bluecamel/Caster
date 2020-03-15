@@ -444,6 +444,19 @@ def _get_defaults():
                 "text_format": [5, 3],
                 "secondary_format": [1, 3],
             },
+        },
+
+        "engine": {
+            "model_dir":
+                os.path.join(os.path.expanduser("~/.dragonfly2-speech"),
+                             "kaldi/model"),
+            "tmp_dir":
+                os.path.join(os.path.expanduser("~/.dragonfly2-speech"),
+                             "kaldi/tmp"),
+            "aggressiveness": 3,
+            "padding_start": 300,
+            "padding_end": 1000,
+            "complex_padding_end": 1000
         }
     }
 

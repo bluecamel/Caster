@@ -10,12 +10,12 @@ from castervoice.rules.ccr.standard import SymbolSpecs
 
 try:  # Try first loading from caster user directory
     from alphabet_rules.alphabet_support import caster_alphabet
-except ImportError: 
+except ImportError:
     from castervoice.rules.core.alphabet_rules.alphabet_support import caster_alphabet
 
 try:  # Try  first loading  from caster user directory
     from punctuation_rules.punctuation_support import double_text_punc_dict, text_punc_dict
-except ImportError: 
+except ImportError:
     from castervoice.rules.core.punctuation_rules.punctuation_support import double_text_punc_dict, text_punc_dict
 
 from castervoice.lib.const import CCRType
@@ -96,8 +96,8 @@ class Navigation(MergeRule):
             R(Function(navigation.drop_keep_clipboard), rspec="spark"),
         "splat [<splatdir>] [<nnavi10>]":
             R(Key("c-%(splatdir)s"), rspec="splat")*Repeat(extra="nnavi10"),
-        "deli [<nnavi50>]":
-            R(Key("del/5"), rspec="deli")*Repeat(extra="nnavi50"),
+        "scratch [<nnavi50>]":
+            R(Key("del/5"), rspec="delete")*Repeat(extra="nnavi50"),
         "clear [<nnavi50>]":
             R(Key("backspace/5:%(nnavi50)d"), rspec="clear"),
         SymbolSpecs.CANCEL:
@@ -129,9 +129,9 @@ class Navigation(MergeRule):
             R(Function(textformat.clear_text_format)),
         "peek [<big>] format":
             R(Function(textformat.peek_text_format)),
-        "(<capitalization> <spacing> | <capitalization> | <spacing>) [(bow|bowel)] <textnv> [brunt]":
+        "(<capitalization> <spacing> | <capitalization> | <spacing>) [(bow|bowel)] <textnv> brunt":
             R(Function(textformat.master_format_text)),
-        "[<big>] format <textnv>":
+        "[<big>] format <textnv> brunt":
             R(Function(textformat.prior_text_format)),
         "<word_limit> [<big>] format <textnv>":
             R(Function(textformat.partial_format_text)),
@@ -183,9 +183,12 @@ class Navigation(MergeRule):
             R(Key("%(modifier)s%(button_dictionary_10)s")*Repeat(extra='nnavi10'),
               rdescript="press modifier keys plus buttons from button_dictionary_10"),
         "<modifier> <button_dictionary_1>":
-              R(Key("%(modifier)s%(button_dictionary_1)s"),
+            R(Key("%(modifier)s%(button_dictionary_1)s"),
               rdescript="press modifiers plus buttons from button_dictionary_1, non-repeatable"),
-
+        "(hold|press) (commy|command)":
+            R(Key("win:down/3")),
+        "release (commy|command)":
+            R(Key("win:up")),
         # "key stroke [<modifier>] <combined_button_dictionary>":
         #     R(Text('Key("%(modifier)s%(combined_button_dictionary)s")')),
 
@@ -200,7 +203,7 @@ class Navigation(MergeRule):
     button_dictionary_500 = {
         "(tab | tabby)": "tab",
         "(backspace | clear)": "backspace",
-        "(delete|deli)": "del",
+        "(delete)": "del",
         "(escape | cancel)": "escape",
         "(enter | shock)": "enter",
         "(left | lease)": "left",
@@ -247,22 +250,22 @@ class Navigation(MergeRule):
         combined_button_dictionary.update(dictionary)
 
     modifier_choice_object = Choice("modifier", {
-            "(control | fly)": "c-", #TODO: make DRY
+            "(control | fly)": "c-",  # TODO: make DRY
             "(shift | shin)": "s-",
-            "alt": "a-",
-            "(control shift | queue)": "cs-",
-            "control alt": "ca-",
+            "(angry | alt)": "a-",
+            "(control shift | que)": "cs-",
+            "(control angry | control alt)": "ca-",
             "(shift alt | alt shift)": "sa-",
             "(control alt shift | control shift alt)": "csa-",  # control must go first
-            "windows": "w-",  # windows should go before alt/shift
-            "control windows": "cw-",
-            "control windows alt": "cwa-",
-            "control windows shift": "cws-",
-            "windows shift alt": "wsa-",
-            "windows alt shift": "was-",
-            "windows shift": "ws-",
-            "windows alt": "wa-",
-            "control windows alt shift": "cwas-",
+            "(commy | windows)": "w-",  # windows should go before alt/shift
+            "control (commy | windows)": "cw-",
+            "control (commy | windows) alt": "cwa-",
+            "control (commy | windows) shift": "cws-",
+            "(commy | windows) shift alt": "wsa-",
+            "(commy | windows) alt shift": "was-",
+            "(commy | windows) shift": "ws-",
+            "(commy | windows) alt": "wa-",
+            "control (commy | windows) alt shift": "cwas-",
             "hit": "",
         })
     extras = [

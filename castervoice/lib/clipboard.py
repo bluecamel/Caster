@@ -5,8 +5,9 @@ try:
     from dragonfly import Clipboard as DragonflyClipboard
     # Use DragonflyClipboard as Clipboard.
     Clipboard = DragonflyClipboard
-except:
+except ImportError:
     printer.out("dragonfly.Clipboard failed to import.")
+
 
 def _is_aenea_available():
     try:
@@ -26,7 +27,7 @@ if settings.settings(["miscellaneous", "use_aenea"]) and _is_aenea_available():
     import aenea
     from jsonrpclib import ProtocolError
 
-    class Clipboard(DragonflyClipboard): # pylint: disable=function-redefined
+    class Clipboard(DragonflyClipboard):  # pylint: disable=function-redefined
 
         @classmethod
         def get_system_text(cls):

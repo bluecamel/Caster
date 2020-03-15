@@ -5,32 +5,32 @@ from castervoice.lib.actions import Key, Text
 
 def caster_alphabet():
     return {
-        "arch"    : "a",
-        "brov"    : "b",
-        "char"    : "c",
-        "delta"   : "d",
-        "echo"    : "e",
-        "foxy"    : "f",
-        "goof"    : "g",
-        "hotel"   : "h",
-        "India"   : "i",
-        "julia"   : "j",
-        "kilo"    : "k",
-        "Lima"    : "l",
-        "Mike"    : "m",
-        "Novakeen": "n",
-        "oscar"   : "o",
-        "prime"   : "p",
-        "Quebec"  : "q",
-        "Romeo"   : "r",
-        "Sierra"  : "s",
-        "tango"   : "t",
-        "uniform" : "u",
-        "victor"  : "v",
-        "whiskey" : "w",
-        "x-ray"   : "x",
-        "yankee"  : "y",
-        "Zulu"    : "z",
+        "(air|arch)":      "a",  # 01
+        "(bat|brov)":      "b",  # 02
+        "(cap|char)":      "c",  # 03
+        "(drum|delta)":    "d",  # 04
+        "(each|echo)":     "e",  # 05
+        "(fine|foxy)":     "f",  # 06
+        "(gust|goof)":     "g",  # 07
+        "(harp|hotel)":    "h",  # 08
+        "(sit|India)":     "i",  # 09
+        "(jury|julia)":    "j",  # 10
+        "(krunch|kilo)":   "k",  # 11
+        "(look|Lima)":     "l",  # 12
+        "(made|Mike)":     "m",  # 13
+        "(near|Novakeen)": "n",  # 14
+        "(odd|oscar)":     "o",  # 15
+        "(pit|prime)":     "p",  # 16
+        "(quench|Quebec)": "q",  # 17
+        "Romeo":           "r",  # 18
+        "(sun|Sierra)":    "s",  # 19
+        "(trap|tango)":    "t",  # 20
+        "(urge|uniform)":  "u",  # 21
+        "(vest|victor)":   "v",  # 22
+        "(whale|whiskey)": "w",  # 23
+        "(plex|x-ray)":    "x",  # 24
+        "(yank|yankee)":   "y",  # 25
+        "(zip|Zulu)":      "z"   # 26
     }
 
 
