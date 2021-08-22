@@ -5,6 +5,7 @@ from castervoice.lib.ctrl.dependencies import find_pip  # pylint: disable=no-nam
 from castervoice.lib.ctrl.updatecheck import update
 from castervoice.lib.ctrl.mgr.rule_details import RuleDetails
 from castervoice.lib.merge.state.short import R
+from castervoice.asynch.hud_support import start_hud
 from castervoice.asynch.hud_support import show_hud
 from castervoice.asynch.hud_support import hide_hud
 from castervoice.asynch.hud_support import show_rules
@@ -44,6 +45,8 @@ class CasterRule(MappingRule):
             R(Function(lambda: control.nexus().set_ccr_active(True))),
         "disable (c c r|ccr)":
             R(Function(lambda: control.nexus().set_ccr_active(False))),
+        "start hud":
+            R(Function(start_hud), rdescript="Start the HUD process"),
         "show hud":
             R(Function(show_hud), rdescript="Show the HUD window"),
         "hide hud":
