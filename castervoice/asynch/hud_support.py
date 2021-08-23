@@ -28,13 +28,20 @@ def start_hud():
         subprocess.Popen([settings.SETTINGS["paths"]["PYTHONW"],
                           settings.SETTINGS["paths"]["HUD_PATH"]])
 
+def kill_hud():
+    hud = control.nexus().comm.get_com("hud")
+    try:
+        hud.kill()
+    except Exception as e:
+        printer.out("Unable to kill hud.  Hud not available. \n{}".format(e))
+
 
 def show_hud():
     hud = control.nexus().comm.get_com("hud")
     try:
         hud.show_hud()
     except Exception as e:
-        printer.out("Hud not available. \n{}".format(e))
+        printer.out("Unable to show hud. Hud not available. \n{}".format(e))
 
 
 def hide_hud():
@@ -42,7 +49,7 @@ def hide_hud():
     try:
         hud.hide_hud()
     except Exception as e:
-        printer.out("Hud not available. \n{}".format(e))
+        printer.out("Unable to hide hud.  Hud not available. \n{}".format(e))
 
 
 def clear_hud():
@@ -50,7 +57,7 @@ def clear_hud():
     try:
         hud.clear_hud()
     except Exception as e:
-        printer.out("Hud not available. \n{}".format(e))
+        printer.out("Unable to clear hud.  Hud not available. \n{}".format(e))
 
 
 def show_rules():
@@ -83,7 +90,7 @@ def show_rules():
     try:
         hud.show_rules(json.dumps(grammars))
     except Exception as e:
-        printer.out("Hud not available. \n{}".format(e))
+        printer.out("Unable to show rules.  Hud not available. \n{}".format(e))
 
 
 def hide_rules():
@@ -94,7 +101,7 @@ def hide_rules():
     try:
         hud.hide_rules()
     except Exception as e:
-        printer.out("Hud not available. \n{}".format(e))
+        printer.out("Unable to hide rules.  Hud not available. \n{}".format(e))
 
 
 class HudPrintMessageHandler(printer.BaseMessageHandler):
@@ -111,13 +118,9 @@ class HudPrintMessageHandler(printer.BaseMessageHandler):
         super(HudPrintMessageHandler, self).__init__()
         self.hud = control.nexus().comm.get_com("hud")
         self.exception = False
-        try:
-            imp.find_module('PySide2') # remove imp dropping python 2
-            if get_current_engine().name != "text":
-                self.hud.ping() # HUD running?
-        except Exception as e:
-            self.exception = True
-            printer.out("Hud not available. \n{}".format(e))
+        imp.find_module('PySide2') # remove imp dropping python 2
+        if get_current_engine().name != "text":
+            self.hud.ping() # HUD running?
 
     def handle_message(self, items):
         if self.exception is False:
@@ -130,7 +133,7 @@ class HudPrintMessageHandler(printer.BaseMessageHandler):
             except Exception as e:
                 # If an exception, print is managed by SimplePrintMessageHandler
                 self.exception = True
-                printer.out("Hud not available. \n{}".format(e))
+                printer.out("Unable to handle message.  Hud not available. \n{}".format(e))
                 raise("")
         else:
             raise("")

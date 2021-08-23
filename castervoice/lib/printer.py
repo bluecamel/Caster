@@ -11,6 +11,9 @@ class _DelegatingPrinterMessageHandler(object):
     def register_handler(self, handler):
         self._handlers.append(handler)
 
+    def unregister_handler(self, handler):
+        self._handlers.remove(handler)
+
     def handle_message(self, items):
         self._queued_messages.append(items)
         if len(self._handlers) > 0:

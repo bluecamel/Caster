@@ -51,5 +51,34 @@ except ImportError:
     pass  # HUD is not available
 
 dh = printer.get_delegating_handler()
-dh.register_handler(hud_support.HudPrintMessageHandler()) # After hud starts
-printer.out("\n") # Force update to display text
+simple_handler = printer.SimplePrintMessageHandler()
+hud_ready = False
+hud_message_handler = None
+try:
+    hud_message_handler = hud_support.HudPrintMessageHandler()
+    dh.register_handler(hud_message_handler)
+    printer.out("\n") # Force update to display text
+    hud_ready = True
+except Exception as e:
+    if hud_message_handler:
+        dh.unregister_handler(hud_message_handler)
+    dh.register_handler(simple_handler)
+    printer.out("\n") # Force update to display text
+    printer.out("Hud not available.  Fell back to simple message handler.{}".format(e))
+
+hud_ready_timeout = 10
+if not hud_ready:
+    import time
+    time_start = time.time()
+    printer.out("Waiting {} seconds for hud to start.".format(hud_ready_timeout))
+    while not hud_ready and time.time() < time_start + hud_ready_timeout:
+        try:
+            hud_message_handler = hud_support.HudPrintMessageHandler()
+            dh.register_handler(hud_message_handler)
+            dh.unregister_handler(simple_handler)
+            printer.out("\n") # Force update to display text
+            hud_ready = True
+        except Exception:
+            pass
+    if not hud_ready:
+        printer.out("Timed out waiting for hud to start.")
